@@ -58,8 +58,8 @@ require_once("lib.php");
 require_once("../../lib/filelib.php");
 require_once("chapterlib.php");
 
-$id         	= required_param('id', PARAM_INT);                 // Course Module ID
-$chapterid     	= optional_param('chapterid', '', PARAM_INT);    //Chapter ID
+$id             = required_param('id', PARAM_INT);               // Course Module ID
+$chapterid      = optional_param('chapterid', '', PARAM_INT);    // Chapter ID
 
 $open = optional_param('open', 0, PARAM_INT);
 
@@ -108,11 +108,20 @@ if (! $chapter = get_chapter($chapterid)) {
 $strpresenter = get_string('modulename', 'presenter');
 $strpresenters = get_string('modulenameplural', 'presenter');
 
-if (!$context = get_context_instance(CONTEXT_MODULE, $cm->id)) {
+if (!$context = context_module::instance($cm->id)) {
 	print_error('badcontext');
 }
 
-add_to_log($course->id, "presenter", "view", "view.php?id=$cm->id", $presenter->id, $cm->id);
+//add_to_log($course->id, "presenter", "view", "view.php?id=$cm->id", $presenter->id, $cm->id);
+$params = array(
+    'context' => $context,
+    'objectid' => $cm->id
+);
+$event = \mod_presenter\event\course_module_viewed::create($params);
+$event->add_record_snapshot('course_modules', $cm);
+$event->add_record_snapshot('course', $course);
+$event->add_record_snapshot('presenter', $presenter);
+$event->trigger();
 
 //filestorage
 $fs = get_file_storage();
@@ -171,7 +180,7 @@ if ($imageStr) {
     $image = imagecreatefromstring($imageStr);
 }
 
-$navigation = build_navigation('', $cm);
+//$navigation = build_navigation('', $cm);
 if ($presenter->new_window != 1) {
 
     $PAGE->set_title($course->shortname . ': ' . $presenter->name . ': ' . $chapter->chapter_name);
@@ -646,7 +655,7 @@ if ($summaryHeight) {
 }
 
 //building navigation
-$nav = '<div id="aaaa" style="clear: left;margin-right: 0;width: ' . $navWidth . 'px;height: ' . ($navHeight) . 'px; overflow-x: hidden; overflow-y: auto">';
+$nav = '<div id="mod_presenter_nav" style="clear: left;margin-right: 0;width: ' . $navWidth . 'px;height: ' . ($navHeight) . 'px; overflow-x: hidden; overflow-y: auto">';
 $aux = $navWidth - 20;
 $nav .= '<table width="' . $aux . 'px" cellpadding="0" cellspacing="0">';
 $nav .= '<th width="5%"></th><th width="5%"></th><th width="90%"></th>';
@@ -732,7 +741,7 @@ if ($index > $number) {
 	$scrollTop = 0;
 }
 
-$s = '<script type="text/javascript">document.getElementById("aaaa").scrollTop = ' . $scrollTop . ';</script>';
+$s = '<script type="text/javascript">document.getElementById("mod_presenter_nav").scrollTop = ' . $scrollTop . ';</script>';
 echo $s;
 if ($presenter->new_window != 1) {
     echo $OUTPUT->footer();

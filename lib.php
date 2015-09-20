@@ -281,7 +281,7 @@ function presenter_process_post_save(&$presenter, $mform) {
                 }
 
                 $draftitemid = '';
-                $draftitemid = $chapter->slide_image;
+                $draftitemid = !empty($chapter->slide_image) ? $chapter->slide_image : null;
                 if ($draftitemid) {
                     file_save_draft_area_files($draftitemid, $context->id, 'mod_presenter', 'image', $chapter->id, array('subdirs'=>true));
                 }
