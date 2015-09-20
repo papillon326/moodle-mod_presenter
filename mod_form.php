@@ -111,7 +111,7 @@ class mod_presenter_mod_form extends moodleform_mod {
     }
 
     function definition() {
-        global $CFG, $COURSE, $DB;
+        global $CFG, $COURSE, $DB, $PAGE;
 
         $mform    =& $this->_form;
 
@@ -165,34 +165,42 @@ class mod_presenter_mod_form extends moodleform_mod {
 
         $mform->addElement('html', $html);
         $mform->addElement('text', 'presentation_width1', get_string('presentation_width', 'presenter'), array('value' => '900'));
+        $mform->setType('presentation_width1', PARAM_INT);
         $mform->addRule('presentation_width1', null, 'numeric', null, 'client');
         
         $mform->addElement('html', '</td><td class="text2">');
         $mform->addElement('text', 'presentation_width2', get_string('presentation_width', 'presenter'), array('value' => '900'));
+        $mform->setType('presentation_width2', PARAM_INT);
         $mform->addRule('presentation_width2', null, 'numeric', null, 'client');
 
         $mform->addElement('html', '</td></tr><tr><td class="text1">');
         $mform->addElement('text', 'presentation_height1', get_string('presentation_height', 'presenter'), array('value' => '500'));
+        $mform->setType('presentation_height1', PARAM_INT);
         $mform->addRule('presentation_height1', null, 'numeric', null, 'client');
 
         $mform->addElement('html', '</td><td class="text2">');
         $mform->addElement('text', 'presentation_height2', get_string('presentation_height', 'presenter'), array('value' => '500'));
+        $mform->setType('presentation_height2', PARAM_INT);
         $mform->addRule('presentation_height2', null, 'numeric', null, 'client');
 
         $mform->addElement('html', '</td></tr><tr><td class="text1">');
         $mform->addElement('text', 'player_width1', get_string('player_width', 'presenter'), array('value' => '320'));
+        $mform->setType('player_width1', PARAM_INT);
         $mform->addRule('player_width1', null, 'numeric', null, 'client');
         
         $mform->addElement('html', '</td><td class="text2">');
         $mform->addElement('text', 'player_width2', get_string('player_width', 'presenter'), array('value' => '640'));
+        $mform->setType('player_width2', PARAM_INT);
         $mform->addRule('player_width2', null, 'numeric', null, 'client');
 
         $mform->addElement('html', '</td></tr><tr><td class="text1">');
         $mform->addElement('text', 'player_height1', get_string('player_height', 'presenter'), array('value' => '240'));
+        $mform->setType('player_height1', PARAM_INT);
         $mform->addRule('player_height1', null, 'numeric', null, 'client');
         
         $mform->addElement('html', '</td><td class="text2">');
         $mform->addElement('text', 'player_height2', get_string('player_height', 'presenter'), array('value' => '500'));
+        $mform->setType('player_height2', PARAM_INT);
         $mform->addRule('player_height2', null, 'numeric', null, 'client');
         
         $html = '</td></tr><tr><td colspan="2">&nbsp;</td></tr></table></div><div class="windowing">';
@@ -224,12 +232,14 @@ class mod_presenter_mod_form extends moodleform_mod {
         $options[1] = 'exact fit';
         $options[2] = 'fill';
         $mform->addElement('select', 'player_streching', get_string('player_streching', 'presenter'), $options);
-        $mform->setDefault('player_streching', 0);
+        $mform->setDefault('player_streching', 1);
         
         $mform->addElement('text', 'volume', get_string('volume', 'presenter'), array('size'=>'7', 'value' => '60'));
+        $mform->setType('volume', PARAM_INT);
         $mform->addRule('volume', null, 'numeric', null, 'client');
         
         $mform->addElement('text', 'buffer_length', get_string('buffer_length', 'presenter'), array('size' => '7', 'value' => '3'));
+        $mform->setType('buffer_length', PARAM_INT);
         $mform->addRule('buffer_length', null, 'numeric', null, 'client');
         
         $options = array('uniform', 'exact fit', 'fill');
@@ -237,6 +247,7 @@ class mod_presenter_mod_form extends moodleform_mod {
         $mform->setDefault('slide_streching', 0);
         
         $mform->addElement('text', 'summary_height', get_string('summary_height', 'presenter'), array('size' => '7'));
+        $mform->setType('summary_height', PARAM_INT);
         $mform->addRule('summary_height', null, 'numeric', null, 'client');
 
         $mform->addElement('html', '</div>');
@@ -253,7 +264,8 @@ class mod_presenter_mod_form extends moodleform_mod {
         $repeatarray = array();
 		
         $repeatarray[] = $mform->createElement('header', 'chapter', get_string('chapter', 'presenter').' {no}');
-        $theme = current_theme();
+        //$theme = current_theme();
+        $theme = $PAGE->theme->name;
 
         $showThis = '<input class="showOnlyOneChapterCaller" type="image" src="'. $CFG->wwwroot . '/mod/presenter/pix/one.gif" style="float: right; margin-right: 17px;" title="Show only this chapter" />';
         $showAll = '<input class="showAllChaptersCaller" type="image" src="'. $CFG->wwwroot . '/mod/presenter/pix/all.gif" style="display: none; float: right; margin-right: 17px;" title="Show all chapters" />';
@@ -356,7 +368,9 @@ class mod_presenter_mod_form extends moodleform_mod {
 
         //2 auxiliary inputs for the move chapter up / down
         $mform->addElement('hidden', 'chapter_move_index', "", array("id" => 'moveChapterIndex'));
+        $mform->setType('chapter_move_index', PARAM_RAW);
         $mform->addElement('hidden', 'chapter_move_direction', "", array("id" => 'moveChapterDirection'));
+        $mform->setType('chapter_move_direction', PARAM_RAW);
 
         $mform->registerNoSubmitButton("chapter_move_up");
         $mform->registerNoSubmitButton("chapter_move_down");

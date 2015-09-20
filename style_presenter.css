@@ -52,15 +52,6 @@
  * ---------------------------------------------------------------------------------------------------------------------
  */
 
-.mform .text1 .fitem .fitemtitle {
-    display:block;
-    float:left;
-    margin:5px 0 0 10px;
-    padding:0;
-    text-align:right;
-    width:35%;
-}
-
 table.table_layouts {
     width: 100%;
     table-layout: fixed;
@@ -94,27 +85,43 @@ table.table_layouts {
     padding-left: 70px;
 }
 
-.text1 div.fitemtitle, .text1 div.felement {
-    float: none !important;
-    display: inline !important;
-    margin-top: 0 !important;
-    padding-top: 5px !important;
-    margin-left: 0 !important;
+td.text1 div.fitem.fitem_ftext .felement,
+td.text2 div.fitem.fitem_ftext .felement {
+    margin-left: 0px;
 }
 
-.text2 div.felement {
-    display: inline !important;
-    width: auto !important;
-    margin-left: 0 !important;
+.editor_atto_wrap {
+    margin-left: 265px;
 }
 
-.text2 div.fitemtitle {
-    width: 185px !important;
-    padding-right: 5px !important;
-    margin-top: 0 !important;
+div.felement input[type=text] {
+    height: 30px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
-.text1 div.felement input, .text2 div.felement input {
+td.text1 div.fitem.fitem_ftext {
+    float: right;
+}
+
+td.text2 div.fitem.fitem_ftext, {
+    float: left;
+}
+
+td.text1 div.fitem.fitem_ftext > div.fitemtitle,
+td.text2 div.fitem.fitem_ftext > div.fitemtitle
+{
+    margin-right: 0.5em;
+    float: left;
+}
+
+td.text1 div.fitem.fitem_ftext > div.felement.ftext,
+td.text2 div.fitem.fitem_ftext > div.felement.ftext {
+    float: left;
+}
+
+td.text1 div.felement input[type=text],
+td.text2 div.felement input[type=text] {
     width: 60px;
 }
 
@@ -179,8 +186,8 @@ table.table_layouts {
     text-align: center !important;
 }
 
-.moveUpCaller,
-.moveDownCaller {
+input[type=submit].moveUpCaller,
+input[type=submit].moveDownCaller {
     float: right;
     background: url(../mod/presenter/pix/up.gif);
     display: block;
@@ -194,11 +201,11 @@ table.table_layouts {
     margin-top: 5px;
 }
 
-.moveDownCaller {
+input[type=submit].moveDownCaller {
     background: url(../mod/presenter/pix/down.gif) no-repeat;
 }
 
-.deleteChapterCaller {
+button.deleteChapterCaller {
     float: right;
     background: url(../mod/presenter/pix/delete.gif);
     padding: 0;
