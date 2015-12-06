@@ -86,7 +86,12 @@ function get_chapters($presenterid, $n = 0) {
 
 	global $CFG, $DB;
 
-    return $DB->get_records('presenter_chapters', array('presenterid' => $presenterid), 'order_id ASC', '*', 0, $n);
+    return $DB->get_records('presenter_chapters',
+                             array('presenterid' => $presenterid),
+                             'order_id ASC, id ASC',
+                             '*',
+                             0,
+                             $n);
     
 }
 
