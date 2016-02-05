@@ -76,7 +76,10 @@ function get_next_chapter_id($chapter) {
 
     global $DB;
     
-    $chapters = $DB->get_records_select('presenter_chapters', "presenterid = ? AND order_id > ?", array($chapter->presenterid, $chapter->order_id), 'order_id ASC', '*', 0, 1);
+    $chapters = $DB->get_records_select('presenter_chapters',
+                                        "presenterid = ? AND order_id > ?",
+                                        array($chapter->presenterid, $chapter->order_id),
+                                        'order_id ASC', '*', 0, 1);
     
     $ch = reset($chapters);
     return is_object($ch) ? $ch->id : false;
@@ -88,7 +91,7 @@ function get_chapters($presenterid, $n = 0) {
 
     return $DB->get_records('presenter_chapters',
                              array('presenterid' => $presenterid),
-                             'order_id ASC, id ASC',
+                             'order_id ASC',
                              '*',
                              0,
                              $n);
@@ -114,19 +117,20 @@ function get_presenter_module_id() {
 function chapter_completed($chapter_id, $userid) {
 
 	global $CFG, $DB;
-	$res = $DB->get_record('presenter_chapters_users', array('userid' => $userid, 'chapter_id' => $chapter_id));
+	$res = $DB->get_record('presenter_chapters_users',
+	                       array('userid' => $userid, 'chapter_id' => $chapter_id));
 	
 	return $res ? $res->userid : $res;
 }
 
 function get_last_chapter_id($chapter) {
     //TODO: find a better way
-	$chapters = get_chapters($chapter->presenterid, 0);
-	$id = 0;
-	foreach ($chapters as $c) {
-		$id = $c->id;
-	}
-	return $id;
+    $chapters = get_chapters($chapter->presenterid, 0);
+    $id = 0;
+    foreach ($chapters as $c) {
+        $id = $c->id;
+    }
+    return $id;
 }
 
 function get_movie_id($url)

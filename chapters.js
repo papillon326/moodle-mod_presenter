@@ -67,12 +67,13 @@ Presenter.ChapterManager = {
         
         //get chapters
         ch = getElementsByClassName(document, "fieldset", "clearfix");
+
         this._chapters = new Array();
         for (i = 0; i < ch.length; i++) {
             kk = ch[i].id.split("_");
-            if (kk[0] == 'chapter') {
+            if (kk[1] == 'chapter') {
                 //TODO: injected files
-                ch[i].idNumber = kk[1];
+                ch[i].idNumber = kk[2];
                 ch[i].fileManagerToolbars = getElementsByClassName(ch[i], "div", "filemanager-toolbar");
                 ch[i].fileManagerConainters = getElementsByClassName(ch[i], "div", "filemanager-container");
                 ch[i].deleted = false;

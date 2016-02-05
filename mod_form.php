@@ -244,7 +244,7 @@ class mod_presenter_mod_form extends moodleform_mod {
         
         $options = array('uniform', 'exact fit', 'fill');
         $mform->addElement('select', 'slide_streching', get_string('slide_streching', 'presenter'), $options);
-        $mform->setDefault('slide_streching', 0);
+        $mform->setDefault('slide_streching', 1);
         
         $mform->addElement('text', 'summary_height', get_string('summary_height', 'presenter'), array('size' => '7'));
         $mform->setType('summary_height', PARAM_INT);
@@ -262,9 +262,9 @@ class mod_presenter_mod_form extends moodleform_mod {
         }
 
         $repeatarray = array();
-		
+
         $repeatarray[] = $mform->createElement('header', 'chapter', get_string('chapter', 'presenter').' {no}');
-        //$theme = current_theme();
+
         $theme = $PAGE->theme->name;
 
         $showThis = '<input class="showOnlyOneChapterCaller" type="image" src="'. $CFG->wwwroot . '/mod/presenter/pix/one.gif" style="float: right; margin-right: 17px;" title="Show only this chapter" />';
@@ -296,9 +296,12 @@ class mod_presenter_mod_form extends moodleform_mod {
         
         $repeatarray[] = $mform->createElement('html', $html);
         $repeatarray[] = $mform->createElement('hidden', 'deleted', 'false', array('class' => 'delete interchange'));
+                         $mform->setType('deleted', PARAM_RAW);
         $repeatarray[] = $mform->createElement('hidden', 'showOnly', 'false', array('class' => 'showOnlyThis interchange'));
+                         $mform->setType('showOnly', PARAM_RAW);
         
         $repeatarray[] = $mform->createElement('text', 'chapter_name', get_string('chapter_name', 'presenter'), array('class' => "names interchange"));
+                         $mform->setType('chapter_name', PARAM_TEXT);
 
         $htmlExplain = '<div class="fitem"><div class="fitemtitle"><label>&nbsp;</label></div><div style="color: #008000; font-size: 90%;" class="felement ftext">' . get_string('allowed_files', 'presenter') . ': <b>*.flv</b></div></div>';
         $repeatarray[] = $mform->createElement('html', $htmlExplain);
@@ -312,10 +315,14 @@ class mod_presenter_mod_form extends moodleform_mod {
         $htmlExplain = '<div class="fitem"><div class="fitemtitle"><label>&nbsp;</label></div><div style="color: #008000; font-size: 90%;" class="felement ftext">' . get_string('explain_video_link', 'presenter') . '</div></div>';
         $repeatarray[] = $mform->createElement('html', $htmlExplain);
         $repeatarray[] = $mform->createElement('text', 'video_link', get_string('or', 'presenter') . get_string('video_link', 'presenter'), array('class' => "interchange"));
+                         $mform->setType('video_link', PARAM_URL);
         
         $repeatarray[] = $mform->createElement('text', 'video_start', get_string('video_start', 'presenter'), array('value' => '0', 'class' => "interchange"));
+                         $mform->setType('video_start', PARAM_RAW);
+
         
         $repeatarray[] = $mform->createElement('text', 'video_end', get_string('video_end', 'presenter'), array('value' => '0', 'class' => "interchange"));
+                         $mform->setType('video_end', PARAM_RAW);
 
         $htmlExplain = '<div class="fitem"><div class="fitemtitle"><label>&nbsp;</label></div><div style="color: #008000; font-size: 90%;" class="felement ftext">' . get_string('allowed_files', 'presenter') . ': <b>*.mp3</b></div></div>';
         $repeatarray[] = $mform->createElement('html', $htmlExplain);
@@ -326,10 +333,12 @@ class mod_presenter_mod_form extends moodleform_mod {
         $opt['maxfiles'] = 1;
         $opt['accepted_types'] = array('*.mp3');
         $repeatarray[] = $mform->createElement('filemanager', 'audio_track', get_string('audio_track', 'presenter'), null, $opt);
-        
+         
         $repeatarray[] = $mform->createElement('hidden', 'audio_start', get_string('audio_start', 'presenter'), array('value' => '0'), array('class' => "interchange"));
+                         $mform->setType('audio_start', PARAM_RAW);
         
         $repeatarray[] = $mform->createElement('text', 'audio_end', get_string('audio_end', 'presenter'), array('value' => '0', 'class' => "interchange"));
+                         $mform->setType('audio_end', PARAM_RAW);
 
         $htmlExplain = '<div class="fitem"><div class="fitemtitle"><label>&nbsp;</label></div><div style="color: #008000; font-size: 90%;" class="felement ftext">' . get_string('allowed_files', 'presenter') . ': <b>*.png, *.gif, *.jpg, *.jpeg</b></div></div>';
         $repeatarray[] = $mform->createElement('html', $htmlExplain);
@@ -342,16 +351,16 @@ class mod_presenter_mod_form extends moodleform_mod {
         $repeatarray[] = $mform->createElement('filemanager', 'slide_image', get_string('slide_image', 'presenter'), null, $opt);
         
         $repeatarray[] = $mform->createElement('htmleditor', 'summary', get_string('summary', 'presenter'), array(
-		    'canUseHtmlEditor'=>'detect',
-		    'rows'  => 10, 
-		    'cols'  => 65, 
-		    'width' => 0,
-		    'height'=> 500, 
-		    'course'=> 0,
-		));
+            'canUseHtmlEditor'=>'detect',
+            'rows'  => 10, 
+            'cols'  => 65, 
+            'width' => 0,
+            'height'=> 500, 
+            'course'=> 0,
+        ));
         
         $repeatarray[] = $mform->createElement('hidden', 'order_id', $repeatno, array('class' => 'order_id interchange'));
-        
+                         $mform->setType('order_id', PARAM_INT);
         
         $repeateloptions = array();
         $nr = $this->repeat_elements($repeatarray, $repeatno,
@@ -360,9 +369,9 @@ class mod_presenter_mod_form extends moodleform_mod {
         $md5Script = '<script type="text/javascript" src="' . $CFG->wwwroot . '/mod/presenter/md5.js"></script>';
         $mform->addElement('html', $md5Script);
         $sc = '<script type="text/javascript">
-					wwwroot = "' . $CFG->wwwroot . '";
-					courseID = "' . $COURSE->id . '";
-			   </script>';
+                    wwwroot = "' . $CFG->wwwroot . '";
+                    courseID = "' . $COURSE->id . '";
+               </script>';
         $mform->addElement('html', $sc);
         $mform->addElement('html', $script);
 
@@ -410,38 +419,38 @@ class mod_presenter_mod_form extends moodleform_mod {
         
         if (!empty ($this->_instance) && $chapters = get_chapters($this->_instance)) {
             
-        	$presenter = $DB->get_record('presenter', array('id' => $this->_instance));
-        	if ($presenter->control_bar == 'over') {
-        		$default_values['control_bar'] = 1;
-        	} else if ($presenter->control_bar == 'none') {
-        		$default_values['control_bar'] = 2;
-        	}
-        	if ($presenter->player_streching == 'exactfit') {
-        		$default_values['player_streching'] = 1;
-        	} else if ($presenter->player_streching == 'fill') {
-        		$default_values['player_streching'] = 2;
-        	}
-        	if ($presenter->slide_streching == 'exactfit') {
-        		$default_values['slide_streching'] = 1;
-        	} else if ($presenter->slide_streching == 'fill') {
-        		$default_values['slide_streching'] = 2;
-        	}
-        	$i = 0;
-        	
-        	foreach ($chapters as $chapter) {
-        		$default_values['chapter_name'][$i]             = $chapter->chapter_name;
-        		$default_values['video_link'][$i]               = $chapter->video_link;
-        		$default_values['video_start'][$i]              = $chapter->video_start;
-        		$default_values['video_end'][$i]                = $chapter->video_end;
-        		$default_values['audio_track'][$i]              = $chapter->audio_track;
-        		$default_values['audio_start'][$i]              = $chapter->audio_start;
-        		$default_values['audio_end'][$i]                = $chapter->audio_end;
-        		$default_values['slide_image'][$i]              = $chapter->slide_image;
-        		$default_values['summary'][$i]                  = $chapter->summary;
-        		$default_values['layout[' . $i . '][layout]']   = $chapter->layout;
+            $presenter = $DB->get_record('presenter', array('id' => $this->_instance));
+            if ($presenter->control_bar == 'over') {
+                $default_values['control_bar'] = 1;
+            } else if ($presenter->control_bar == 'none') {
+                $default_values['control_bar'] = 2;
+            }
+            if ($presenter->player_streching == 'exactfit') {
+                $default_values['player_streching'] = 1;
+            } else if ($presenter->player_streching == 'fill') {
+                $default_values['player_streching'] = 2;
+            }
+            if ($presenter->slide_streching == 'exactfit') {
+                $default_values['slide_streching'] = 1;
+            } else if ($presenter->slide_streching == 'fill') {
+                $default_values['slide_streching'] = 2;
+            }
+            $i = 0;
+            
+            foreach ($chapters as $chapter) {
+                $default_values['chapter_name'][$i]             = $chapter->chapter_name;
+                $default_values['video_link'][$i]               = $chapter->video_link;
+                $default_values['video_start'][$i]              = $chapter->video_start;
+                $default_values['video_end'][$i]                = $chapter->video_end;
+                $default_values['audio_track'][$i]              = $chapter->audio_track;
+                $default_values['audio_start'][$i]              = $chapter->audio_start;
+                $default_values['audio_end'][$i]                = $chapter->audio_end;
+                $default_values['slide_image'][$i]              = $chapter->slide_image;
+                $default_values['summary'][$i]                  = $chapter->summary;
+                $default_values['layout[' . $i . '][layout]']   = $chapter->layout;
 
                 if (!empty($this->_cm)) {
-                    $context = get_context_instance(CONTEXT_MODULE, $this->_cm->id);
+                    $context = context_module::instance($this->_cm->id);
                     $draftitemid = file_get_submitted_draft_itemid('video_file[' . $i . ']');
                     file_prepare_draft_area($draftitemid, $context->id, 'mod_presenter', 'video', $chapter->id, array('subdirs' => 0, 'maxbytes' => $this->course->maxbytes, 'maxfiles' => 1));
                     $default_values['video_file'][$i] = $draftitemid;
