@@ -54,7 +54,7 @@
  */
 
 $plugin->component = 'mod_presenter';
-$plugin->version   = 2016021900;  //The current module version (Date: YYYYMMDDXX)
+$plugin->version   = 2016021901;  //The current module version (Date: YYYYMMDDXX)
 $plugin->requires  = 2014111000;    // Requires this Moodle version.
 $plugin->cron      = 0;           //Period for cron to check this module (secs)
 $plugin->maturity  = MATURITY_STABLE;
