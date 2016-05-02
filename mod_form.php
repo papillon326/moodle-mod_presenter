@@ -85,12 +85,14 @@ class mod_presenter_mod_form extends moodleform_mod {
         $change_order = false;
         
         if (!empty($_POST['chapter_move_up'])) {
+            $_POST['chapter_move_up'] = true;
             if ($_POST['chapter_move_direction'] == 'up' && $_POST['chapter_move_index'] > 0) {
                 $change_order = true;
                 $i1 = intval($_POST['chapter_move_index']);
                 $i2 = $i1 - 1;
             }
         } elseif (!empty($_POST['chapter_move_down'])) {
+            $_POST['chapter_move_down'] = true;
             if ($_POST['chapter_move_direction'] == 'down' && $_POST['chapter_move_index'] < count($_POST['chapter_name']) - 1) {
                 $change_order = true;
                 $i1 = intval($_POST['chapter_move_index']);
@@ -276,11 +278,15 @@ class mod_presenter_mod_form extends moodleform_mod {
         $btn = '<div style="clear:both"></div><button class="deleteChapterCaller" type="button" title="'. get_string('remove', 'presenter') .'">' . '</button>';
         $repeatarray[] = $mform->createElement('html', $btn);
         
-        $btn = '<div style="clear:both"></div><input value="move_up{no}" type="submit" class="moveUpCaller" name="chapter_move_up" title="' . get_string('move_up', 'presenter') . '" />';
-        $repeatarray[] = $mform->createElement('html', $btn);
+        $div = '<div style="clear:both"></div>';
+        $repeatarray[] = $mform->createElement('html', $div);
         
-        $btn = '<div style="clear:both"></div><input value="move_down{no}" type="submit" class="moveDownCaller" name="chapter_move_down" title="' . get_string('move_down', 'presenter') . '">';
-        $repeatarray[] = $mform->createElement('html', $btn);
+        $repeatarray[] = $mform->createElement('submit', 'chapter_move_up', '&nbsp;', 'class="moveUpCaller" value="move_up{no}" title="' . get_string('move_up', 'presenter') . '"');
+        
+        $repeatarray[] = $mform->createElement('html', $div);
+        
+        //$btn = '<div style="clear:both"></div><input value="move_down{no}" type="submit" class="moveDownCaller" name="chapter_move_down" title="' . get_string('move_down', 'presenter') . '">';
+        $repeatarray[] = $mform->createElement('submit', 'chapter_move_down', '&nbsp;','class="moveDownCaller" value="move_down{no}" title="' . get_string('move_up', 'presenter') . '"');
         
         $radio[] = $mform->createElement('radio', 'layout', null,  '<img src="' . $CFG->wwwroot . '/mod/presenter/pix/layout1.gif" />', '1', array("class" => "radioBut", "id" => "id_radio"));
         $radio[] = $mform->createElement('radio', 'layout', null,  '<img src="' . $CFG->wwwroot . '/mod/presenter/pix/layout2.gif" />', '2', array("class" => "radioBut", "id" => "id_radio"));

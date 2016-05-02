@@ -351,7 +351,7 @@ Presenter.ChapterManager = {
         par = elem.parentNode.parentNode;
         del = getElementsByClassName(document, 'input', 'delete');
         ids = par.id.split('_');
-        var goodID = parseInt(ids[1]);
+        var goodID = parseInt(ids[5]);
         this._chapters[goodID].deleted = true;
         for (i = 0; i < del.length; i++) {
             if (i == goodID) {
@@ -366,7 +366,7 @@ Presenter.ChapterManager = {
         skipClientValidation = true;
         par = elem.parentNode.parentNode;
         ids = par.id.split('_');
-        var goodID = parseInt(ids[1]);
+        var goodID = parseInt(ids[5]);
 
         if (goodID < this._chapters.length - 1) {
             
@@ -381,7 +381,7 @@ Presenter.ChapterManager = {
         skipClientValidation = true;
         par = elem.parentNode.parentNode;
         ids = par.id.split('_');
-        var goodID = parseInt(ids[1]);
+        var goodID = parseInt(ids[5]);
         if (goodID > 0) {
             document.getElementById("moveChapterIndex").value = goodID;
             document.getElementById("moveChapterDirection").value = "up";
@@ -554,12 +554,15 @@ Presenter.FormManager = {
         	var videoNav = navVideo + 1;
         	var radio1 = document.getElementById("id_radio" + navVideo);
         	var radio2 = document.getElementById("id_radio" + videoNav);
+        	
+          console.log(radio1);
         	if (radio1.checked || radio2.checked) {
         		var videoInput = document.getElementById("id_video_link_" + this._chapters[i].idNumber);
         		if (videoInput.value == '') {
         			//check for video files
         			var videoFileContainer = this._chapters[i].fileManagerConainters[0];
-        			if (getElementsByClassName(videoFileContainer, "span", "fm-menuicon").length == 0) {
+        			if (getElementsByClassName(videoFileContainer, "span", "fp-filename").length == 0
+        			  && getElementsByClassName(videoFileContainer, "div", "fp-filename-field").length == 0) {
         				this._gotoField(videoInput);
         				if (!confirm("Are you sure you don't want to select a video file / link for this chapter?")) {
         					return false;
